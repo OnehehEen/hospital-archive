@@ -1,0 +1,637 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Государственный архив медицинских учреждений</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    background:#edf2f7;
+    color:#1b2d3a;
+}
+
+header{
+    background:#18384b;
+    color:white;
+    padding:24px 40px;
+    border-bottom:4px solid #2f617e;
+}
+
+header h1{
+    font-size:26px;
+    margin-bottom:8px;
+}
+
+header p{
+    opacity:0.8;
+    font-size:14px;
+}
+
+.topbar{
+    margin-top:18px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.topbar input{
+    width:320px;
+    max-width:100%;
+    padding:11px;
+    border:none;
+    border-radius:5px;
+}
+
+.topbar button{
+    padding:11px 18px;
+    border:none;
+    background:#39769d;
+    color:white;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.warning{
+    background:#fff4cf;
+    color:#816404;
+    padding:12px 22px;
+    border-bottom:1px solid #e0d39c;
+    font-size:14px;
+}
+
+.container{
+    width:95%;
+    max-width:1400px;
+    margin:30px auto;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+    margin-bottom:28px;
+}
+
+.stat{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    border:1px solid #d7e2eb;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+.stat h3{
+    font-size:13px;
+    color:#587284;
+    margin-bottom:10px;
+}
+
+.stat p{
+    font-size:24px;
+    font-weight:bold;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:10px;
+    padding:20px;
+    border:1px solid #d9e2ea;
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+    transition:0.2s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 8px 18px rgba(0,0,0,0.12);
+}
+
+.card h2{
+    font-size:20px;
+    margin-bottom:10px;
+}
+
+.meta{
+    font-size:13px;
+    color:#5c7381;
+    margin-bottom:14px;
+}
+
+.desc{
+    font-size:14px;
+    line-height:1.5;
+    margin-bottom:20px;
+}
+
+.card button{
+    background:#1f4d66;
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.card button:hover{
+    background:#2b698a;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.65);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:999;
+}
+
+.modal-box{
+    background:white;
+    width:100%;
+    max-width:520px;
+    border-radius:12px;
+    padding:30px;
+    position:relative;
+}
+
+.close{
+    position:absolute;
+    right:16px;
+    top:12px;
+    font-size:24px;
+    cursor:pointer;
+    color:#557080;
+}
+
+.modal-box h2{
+    margin-bottom:15px;
+}
+
+.modal-box p{
+    color:#4d6573;
+    margin-bottom:18px;
+    line-height:1.5;
+}
+
+.modal-box input{
+    width:100%;
+    padding:12px;
+    border:1px solid #c9d6df;
+    border-radius:5px;
+    margin-bottom:15px;
+}
+
+.modal-box button{
+    background:#204d67;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.result{
+    margin-top:15px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.error{
+    color:#b42318;
+}
+
+.success{
+    color:#18794e;
+}
+
+.secret{
+    margin-top:20px;
+    padding:20px;
+    border-radius:8px;
+    background:#f2f8fd;
+    border:1px solid #d2e4f2;
+    display:none;
+}
+
+.placeholder{
+    display:none;
+    min-height:100vh;
+    background:#edf2f7;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+    gap:20px;
+    padding:40px;
+}
+
+.placeholder .emoji{
+    font-size:90px;
+}
+
+.placeholder h2{
+    font-size:32px;
+}
+
+.placeholder p{
+    max-width:600px;
+    color:#607482;
+    line-height:1.6;
+}
+
+footer{
+    margin-top:40px;
+    text-align:center;
+    padding:25px;
+    color:#697c89;
+    font-size:13px;
+}
+
+@media(max-width:600px){
+
+    header{
+        padding:20px;
+    }
+
+    .topbar{
+        flex-direction:column;
+    }
+
+    .topbar input,
+    .topbar button{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="mainSite">
+
+<header>
+
+    <h1>Государственный архив медицинских учреждений</h1>
+
+    <p>
+        Единая архивная система медицинских объектов РФ
+    </p>
+
+    <div class="topbar">
+        <input type="text" placeholder="Поиск по архиву...">
+        <button>Найти</button>
+    </div>
+
+</header>
+
+<div class="warning">
+    ВНИМАНИЕ: часть архивных записей ограничена внутренним регламентом допуска МЗ-14/А.
+</div>
+
+<div class="container">
+
+    <div class="stats">
+
+        <div class="stat">
+            <h3>Зарегистрировано объектов</h3>
+            <p>15</p>
+        </div>
+
+        <div class="stat">
+            <h3>Архивных записей</h3>
+            <p>48 221</p>
+        </div>
+
+        <div class="stat">
+            <h3>Статус системы</h3>
+            <p>Стабильно</p>
+        </div>
+
+    </div>
+
+    <div class="grid" id="hospitalGrid"></div>
+
+</div>
+
+<footer>
+    Государственный архив медицинских учреждений · Внутренняя система МЗ РФ · Версия 4.2.1
+</footer>
+
+</div>
+
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <div class="close" onclick="closeModal()">×</div>
+
+        <h2 id="hospitalTitle">Архив учреждения</h2>
+
+        <p>
+            Для доступа к внутренним материалам учреждения требуется код допуска.
+        </p>
+
+        <input type="password" id="codeInput" placeholder="Введите код доступа">
+
+        <button onclick="checkCode()">
+            Подтвердить
+        </button>
+
+        <div class="result" id="result"></div>
+
+        <div class="secret" id="secretBlock">
+
+            <h3>
+                Доступ к архиву исследований разрешён
+            </h3>
+
+            <p style="margin-top:10px;">
+                Защищённый сектор архива успешно разблокирован.
+            </p>
+
+            <button style="margin-top:15px;" onclick="openNextPage()">
+                Перейти к следующему этапу
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="placeholder" id="placeholderPage">
+
+    <div class="emoji">🗃️</div>
+
+    <h2>Следующий этап</h2>
+
+    <p>
+        Заглушка страницы. Здесь позже можно разместить следующую загадку,
+        документы, изображения, аудио или скрытые файлы.
+    </p>
+
+</div>
+
+<script>
+
+const hospitals = [
+
+{
+name:"Центральная клиническая больница №4",
+city:"Москва",
+status:"Государственная",
+desc:"Архив кардиологических и нейрохирургических исследований."
+},
+
+{
+name:"Институт инфекционных заболеваний Северного округа",
+city:"Санкт-Петербург",
+status:"Научная",
+desc:"Доступ к части материалов ограничен приказом 18-Н."
+},
+
+{
+name:"Военный госпиталь имени Громова",
+city:"Казань",
+status:"Военная",
+desc:"Закрытая база данных полевых медицинских операций."
+},
+
+{
+name:"Областной центр трансплантологии",
+city:"Новосибирск",
+status:"Федеральная",
+desc:"Архив биологических протоколов и экспериментальных операций."
+},
+
+{
+name:"Клиника восстановительной медицины №12",
+city:"Екатеринбург",
+status:"Государственная",
+desc:"Хранилище данных по экспериментальной терапии."
+},
+
+{
+name:"Научный центр психиатрии и неврологии",
+city:"Томск",
+status:"Научная",
+desc:"Часть архивов переведена в закрытый сектор."
+},
+
+{
+name:"Медицинский комплекс Восточного округа",
+city:"Владивосток",
+status:"Федеральная",
+desc:"Объект повышенного уровня архивной защиты."
+},
+
+{
+name:"Архивный клинический центр имени Воронцова",
+city:"Самара",
+status:"Исследовательская",
+desc:"Обновление базы данных выполнено 14.03.2026."
+},
+
+{
+name:"Национальная больница имени Асклепия",
+city:"Не указан",
+status:"Специальный объект",
+desc:"Часть данных скрыта внутренним регламентом допуска."
+},
+
+{
+name:"Федеральная больница оперативной хирургии",
+city:"Пермь",
+status:"Военная",
+desc:"Архив хирургических протоколов ограниченного доступа."
+},
+
+{
+name:"Клинический архив имени Лебедева",
+city:"Красноярск",
+status:"Научная",
+desc:"Система хранения архивов обновлена."
+},
+
+{
+name:"Центр санитарного мониторинга",
+city:"Омск",
+status:"Государственная",
+desc:"Доступны только открытые материалы."
+},
+
+{
+name:"Институт патологических исследований",
+city:"Тула",
+status:"Научная",
+desc:"Внутренние документы временно недоступны."
+},
+
+{
+name:"Северный медицинский архив",
+city:"Архангельск",
+status:"Федеральная",
+desc:"Обнаружены повреждённые сектора хранения."
+},
+
+{
+name:"Государственная клиника №18",
+city:"Уфа",
+status:"Государственная",
+desc:"Архив проверен и синхронизирован."
+}
+
+];
+
+const grid = document.getElementById("hospitalGrid");
+
+const modal = document.getElementById("modal");
+
+const result = document.getElementById("result");
+
+const secretBlock = document.getElementById("secretBlock");
+
+const hospitalTitle = document.getElementById("hospitalTitle");
+
+const codeInput = document.getElementById("codeInput");
+
+let currentHospital = "";
+
+hospitals.forEach(hospital => {
+
+    const card = document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
+        <h2>${hospital.name}</h2>
+
+        <div class="meta">
+            ${hospital.city} · ${hospital.status}
+        </div>
+
+        <div class="desc">
+            ${hospital.desc}
+        </div>
+
+        <button>
+            Подробнее
+        </button>
+    `;
+
+    card.querySelector("button").addEventListener("click", () => {
+
+        currentHospital = hospital.name;
+
+        hospitalTitle.textContent = hospital.name;
+
+        codeInput.value = "";
+
+        result.textContent = "";
+
+        result.className = "result";
+
+        secretBlock.style.display = "none";
+
+        modal.style.display = "flex";
+
+    });
+
+    grid.appendChild(card);
+
+});
+
+function closeModal(){
+
+    modal.style.display = "none";
+
+}
+
+function checkCode(){
+
+    const code = codeInput.value.trim();
+
+    const correctCode = "ASKLEPIOS-731";
+
+    if(
+        currentHospital === "Национальная больница имени Асклепия"
+        &&
+        code === correctCode
+    ){
+
+        result.textContent = "Доступ разрешён.";
+
+        result.className = "result success";
+
+        secretBlock.style.display = "block";
+
+    }
+
+    else{
+
+        result.textContent =
+            "Доступ запрещён. Недостаточный уровень допуска.";
+
+        result.className = "result error";
+
+        secretBlock.style.display = "none";
+
+    }
+
+}
+
+function openNextPage(){
+
+    document.getElementById("mainSite").style.display = "none";
+
+    document.getElementById("modal").style.display = "none";
+
+    document.getElementById("placeholderPage").style.display = "flex";
+
+}
+
+window.addEventListener("keydown", e => {
+
+    if(e.key === "Escape"){
+
+        closeModal();
+
+    }
+
+});
+
+modal.addEventListener("click", e => {
+
+    if(e.target === modal){
+
+        closeModal();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
+```
